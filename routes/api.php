@@ -37,5 +37,6 @@ Route::prefix('admin')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         // Endpoint - api/admin/user
         Route::get('user', [AuthController::class, 'user']);
+        Route::post('logout', [AuthController::class, 'logout']);
     });
 });
