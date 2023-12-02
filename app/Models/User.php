@@ -45,6 +45,16 @@ class User extends Authenticatable
         'password',
         // 'remember_token',
     ];
+    public function scopeAmbassadors($query)
+    {
+        ///get ambassador
+        return $query->where("is_admin", 0); ///set only ambassador.
+    }
+    public function scopeAdmins($query)
+    {
+        ///get admin
+        return $query->where("is_admin", 1); ///set only admin.
+    }
     /**
      * The attributes that are mass assignable.
      *
