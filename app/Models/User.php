@@ -55,6 +55,16 @@ class User extends Authenticatable
         ///get admin
         return $query->where("is_admin", 1); ///set only admin.
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getRevenueAttribute()
+    {
+        return $this->orders->sum(fn (Order $order) => $order->ambassador_revenue);
+    }
     /**
      * The attributes that are mass assignable.
      *

@@ -32,23 +32,62 @@ use PHPUnit\Framework\Attributes\Group;
 
 
 */
-// Group of admin endpoints
-Route::prefix('admin')->group(function () {
+
+function common(string $scope)
+{
     // Endpoint - api/admin/register
     Route::post('register', [AuthController::class, 'register']);
     // Endpoint - api/admin/login
     Route::post('login', [AuthController::class, 'login']);
-
     // Group of admin middleware endpoints
-    Route::middleware(['auth:sanctum', 'scope.admin'])->group(function () {
+    Route::middleware(['auth:sanctum', $scope])->group(function () {
         // Endpoint - api/admin/user
         Route::get('user', [AuthController::class, 'user']);
         Route::post('logout', [AuthController::class, 'logout']);
         Route::put('users/info', [AuthController::class, 'updateInfo']);
         Route::put('users/password', [AuthController::class, 'updatePassword']);
+    });
+}
+
+// Group of admin endpoints
+Route::prefix('admin')->group(function () {
+    // // Endpoint - api/admin/register
+    // Route::post('register', [AuthController::class, 'register']);
+    // // Endpoint - api/admin/login
+    // Route::post('login', [AuthController::class, 'login']);
+
+    common("scope.admin"); ////set init CRUD
+
+    // Group of admin middleware endpoints
+    Route::middleware(['auth:sanctum', 'scope.admin'])->group(function () {
+        // // Endpoint - api/admin/user
+        // Route::get('user', [AuthController::class, 'user']);
+        // Route::post('logout', [AuthController::class, 'logout']);
+        // Route::put('users/info', [AuthController::class, 'updateInfo']);
+        // Route::put('users/password', [AuthController::class, 'updatePassword']);
+
         Route::get('ambassador', [AmbassadorController::class, 'index']);
         Route::apiResource("products", ProductController::class);
         Route::get("users/{id}/links", [LinkController::class, 'index']);
         Route::get("orders", [OrderController::class, 'index']);
     });
+});
+
+
+///////Routes for ambassador
+// Group of admin endpoints
+Route::prefix('ambassador')->group(function () {
+    common("scope.ambassador"); ////set init CRUD
+    // // Endpoint - api/admin/register
+    // Route::post('register', [AuthController::class, 'register']);
+    // // Endpoint - api/admin/login
+    // Route::post('login', [AuthController::class, 'login']);
+    // // Group of admin middleware endpoints
+    // Route::middleware(['auth:sanctum', 'scope.ambassador'])->group(function () {
+    //     // Endpoint - api/admin/user
+    //     Route::get('user', [AuthController::class, 'user']);
+    //     Route::post('logout', [AuthController::class, 'logout']);
+    //     Route::put('users/info', [AuthController::class, 'updateInfo']);
+    //     Route::put('users/password', [AuthController::class, 'updatePassword']);
+    // });
 });
