@@ -6,6 +6,7 @@ use App\Http\Controllers\LinkController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Link;
+use App\Models\Product;
 // use App\Models\Link;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,9 @@ Route::prefix('admin')->group(function () {
 // Group of admin endpoints
 Route::prefix('ambassador')->group(function () {
     common("scope.ambassador"); ////set init CRUD
+    Route::get("products/frontend", [ProductController::class, "frontend"]);
+    Route::get("products/backend", [ProductController::class, "backend"]);
+
     // // Endpoint - api/admin/register
     // Route::post('register', [AuthController::class, 'register']);
     // // Endpoint - api/admin/login
